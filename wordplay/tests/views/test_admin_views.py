@@ -23,7 +23,7 @@ class AdminViewTestCases(TestCase):
         response = self.client.get(reverse('admin'))
 
         self.assertTemplateUsed(response, 'admin.html')
-        self.assertContains(response, 'Create a Team Temperature Survey', status_code=200)
+        self.assertContains(response, 'Create a Wordplay Survey', status_code=200)
 
     def test_admin_post_creation(self):
         self.assertTrue(self.client.login(username=self.user.username, password='password'))
