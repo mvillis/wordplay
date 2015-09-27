@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Wordplay{% endblock %}
+
+{% block body %}
+    <div class="jumbotron">
+        <h1>Wordplay</h1>
+
+        <p>An easy way to create word clouds (aka wordles) by asking folks to submit words.</p>
+        {% if user.is_authenticated %}
+        <p><a class="btn btn-primary btn-lg" role="button" href="{% url "admin" %}">Admin</a></p>
+        {% else %}
+        <p><a class="btn btn-primary btn-lg" role="button" href="{% url "register" %}">Register</a> <a
+                class="btn btn-primary btn-lg" role="button" href="{% url "login" %}?next={% url 'admin' %}">Log In</a></p>
+        {% endif %}
+    </div>
+{% endblock %}

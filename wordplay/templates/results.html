@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Results{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1>Wordplay Results</h1>
+    </div>
+    <div class="row">
+        <div class="col-sm-1 col-md-9">
+            <h2 class="text-muted">Summary for {{ survey.name }}</h2>
+            <p> Over the last 5 surveys:
+            <ul>
+              <li>Average temperature: {{ survey.stats.average }}</li>
+              <li>Average responses: {{ survey.stats.count }}</li>
+            </ul>
+
+            <h2 class="text-muted">Individual Surveys</h2>
+            <table class="table table-bordered">
+              <tr>
+                <th>Period</th>
+                <th>Temperature</th>
+                <th></th>
+              </tr>
+              {% for collector in survey.collector_set.all %}
+              <tr>
+                <td>{{ collector.open_date}} - {{ collector.close_date }}</td>
+                <td>{{ collector.stats.average }} ({{ collector.stats.count }})</td>
+                <td></td>
+            {% endfor %}
+            </table>
+        </div>
+        <div class="col-sm-1 col-md-3">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        Start new survey
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <form method="post" action="{% url 'collector-create' survey.id %}">
+                        {%  csrf_token %}
+                    <input type="submit" value="Start new" class="btn" />
+                    </form>
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        Share this Survey
+                    </div>
+                </div>
+                <div class="panel-body">
+                    Let your team know about this survey - send them
+                        <a href="{% url 'temp' survey.id %}">this link</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

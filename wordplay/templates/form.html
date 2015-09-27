@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Wordplay{% endblock %}
+
+{% block body %}
+{% if thanks %}
+<div class="info box">{{ thanks }}</div>
+{% endif %}
+<h1>Submit your temperature</h1>
+<form method="post">
+  {% csrf_token %}
+  <div class="form-group">
+    {{ form.score.errors }}
+  <div class="field">
+    <label for="id_score">Temperature (1-10):</label><br/>
+    {{ form.score }}
+  </div>
+  </div>
+  <div class="form-group">
+  {{ form.word.errors }}
+  <div class="field">
+    <label for="id_word">One word to describe how you're feeling:</label><br/>
+    {{ form.word }}
+  </div>
+  </div>
+  <div class="form-group">
+  <input type="submit" value="Submit" class="btn btn-primary"/>
+  </div>
+</form>
+{% endblock %}

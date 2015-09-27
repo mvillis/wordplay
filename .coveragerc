@@ -1,0 +1,12 @@
+[run]
+branch = True
+source =
+    wordplay
+omit =
+    venv/*
+    wordplay/responses/migrations/*
+    wordplay/tests/*
+    wordplay/settings.py
+    wordplay/wsgi.py
+[report]
+precision = 2

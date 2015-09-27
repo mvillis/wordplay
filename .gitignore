@@ -1,0 +1,7 @@
+.coverage
+venv
+staticfiles
+*.pyc
+*.sqlite
+.idea
+*.iml

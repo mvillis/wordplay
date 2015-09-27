@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}About Wordplay{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1>About</h1>
+    </div>
+    <p>
+        A single word shared is worth more than 1000 kept in silence. Wordplay allows you to crowd source a group, collect their wisdom and visualise as a word cloud.</p>
+
+    <p>For the sake of security, very little information is stored or recorded.
+        Each submitter is represented by a random ID, and a cookie is stored so
+        really only to protect against accidental double submissions from the
+        same user with the same browser.</p>
+
+    <p>The results page are available to the creator using the same cookie
+        mechanism, and also a password in case the cookie is lost.</p>
+
+    <p>This application runs on Heroku and the source can be examined
+        <a href="https://github.com/mvillis/wordplay">on Github</a>. You'll have
+        to trust me that the same code is running on Heroku. (Although pull requests
+        that make that more explicit will be considered. Indeed all reasonable pull
+        requests will be considered, as will any issues raised)</p>
+
+    <p>The application is written in django against a postgresql database.</p>
+{% endblock %}

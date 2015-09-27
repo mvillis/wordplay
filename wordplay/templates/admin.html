@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Wordplay{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="page-header">
+            <h1>Create a Wordplay Survey</h1>
+        </div>
+        <div>
+            <form method="post" class="form-inline">
+                {% csrf_token %}
+                <div class="control-group  col-md-4">
+
+                    <input type="text" class="form-control" placeholder="Team name" name="name"/>
+                    {{ form.name.errors }}
+                </div>
+                <input class="btn btn-primary" type="submit" value="Create"/>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <h2>Existing Surveys</h2>
+        {% for survey in surveys %}
+            <a href="{% url 'result' survey.id %}">{{ survey.name }} ({{ survey.id }})<br/>
+        {% endfor %}
+    </div>
+{% endblock %}

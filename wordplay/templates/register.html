@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+        <div class="page-header">
+            <h1>Register</h1>
+        </div>
+        <div>
+            <form method="post" action="{% url 'register' %}">
+            {% csrf_token %}
+            <div class="form-group">
+            <table>
+            <tr>
+                <td>{{ form.username.label_tag }}</td>
+                <td>{{ form.username }}  {{ form.username.errors.as_text }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.password1.label_tag }}</td>
+                <td>{{ form.password1 }}  {{ form.password1.errors.as_text }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.password2.label_tag }}</td>
+                <td>{{ form.password2 }}  {{ form.password2.errors.as_text }}</td>
+            </tr>
+            </table>
+            </div>
+            <input type="submit" value="Register" class="btn btn-primary"/>
+            <input type="hidden" name="next" value="{{ next }}" />
+            </form>
+        </div>
+{% endblock %}
