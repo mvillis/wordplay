@@ -41,5 +41,5 @@ python manage.py runserver
 
 Build Health
 -----------
-[![Build Status](https://travis-ci.org/mvillis/wordplay.svg?branch=master)](https://travis-ci.org/mvillis/wordplay)
-[![Coverage Status](https://coveralls.io/repos/mvillis/wordplay/badge.png)](https://coveralls.io/r/mvillis/wordplay)
+[![Build Status](https://travis-ci.org/mvillis/wordplay.svg)](https://travis-ci.org/mvillis/wordplay)
+[![Coverage Status](https://coveralls.io/repos/mvillis/wordplay/badge.svg?branch=master&service=github)](https://coveralls.io/github/mvillis/wordplay?branch=master)
