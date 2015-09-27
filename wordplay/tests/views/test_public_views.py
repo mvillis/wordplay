@@ -10,11 +10,11 @@ class PublicViewTestCases(TestCase):
         response = self.client.get(reverse('home'))
 
         self.assertTemplateUsed(response, 'index.html')
-        self.assertContains(response, 'Team Temp')
+        self.assertContains(response, 'Wordplay')
 
     def test_about_view(self):
 
         response = self.client.get(reverse('about'))
 
         self.assertTemplateUsed(response, 'about.html')
-        self.assertContains(response, 'About Team Temp')
+        self.assertContains(response, 'About Wordplay')
