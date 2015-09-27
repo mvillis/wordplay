@@ -1,3 +1,8 @@
+Demo
+-----
+
+[Live Site (hosted on Heroku)](https://word-play.herokuapp.com)
+
 Setup
 -----
 
