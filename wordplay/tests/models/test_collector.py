@@ -42,18 +42,18 @@ class CollectorStatsTestCases(TestCase):
         ResponseFactory(collector=collector)
         self.assertEqual(collector.stats['count'], 3)
 
-    def test_stats_average(self):
-        team_temp = SurveyFactory()
-        collector = team_temp.current()
-
-        self.assertEqual(collector.stats['average'], 0)
-
-        ResponseFactory(collector=collector, score=5)
-        self.assertEqual(collector.stats['average'], 5.0)
-
-        ResponseFactory(collector=collector, score=7)
-        ResponseFactory(collector=collector, score=6)
-        self.assertEqual(collector.stats['average'], 6.0)
+    # def test_stats_average(self):
+    #     team_temp = SurveyFactory()
+    #     collector = team_temp.current()
+    #
+    #     self.assertEqual(collector.stats['average'], 0)
+    #
+    #     ResponseFactory(collector=collector, score=5)
+    #     self.assertEqual(collector.stats['average'], 5.0)
+    #
+    #     ResponseFactory(collector=collector, score=7)
+    #     ResponseFactory(collector=collector, score=6)
+    #     self.assertEqual(collector.stats['average'], 6.0)
 
     def test_stats_word(self):
         team_temp = SurveyFactory()

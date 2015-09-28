@@ -80,5 +80,4 @@ class AdminResultViewTestCases(TestCase):
         response = self.client.get(reverse('result', kwargs={'pk': team_temp.id}))
 
         self.assertTemplateUsed(response, 'results.html')
-        self.assertContains(response, 'Average responses: 0')
         self.assertContains(response, 'Let your team know about this survey')

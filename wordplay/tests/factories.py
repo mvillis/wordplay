@@ -46,5 +46,4 @@ class ResponseFactory(factory.django.DjangoModelFactory):
 
     collector = factory.LazyAttribute(lambda o: SurveyFactory().current())
     responder = factory.SubFactory(UserFactory)
-    score = 5
     word = 'word'
