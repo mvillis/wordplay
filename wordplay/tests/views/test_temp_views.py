@@ -16,7 +16,7 @@ class TemperatureViewTestCases(TestCase):
         response = self.client.get(reverse('temp', args=[str(team_temp.id)]))
 
         self.assertTemplateUsed(response, 'form.html')
-        self.assertContains(response, 'Submit your temperature')
+        self.assertContains(response, 'Wordplay Time!')
 
     @patch.object(responses, 'get_or_create_userid')
     def test_get_temperature_with_previous_response_view(self, mock_session_id):
@@ -29,14 +29,14 @@ class TemperatureViewTestCases(TestCase):
         response = self.client.get(reverse('temp', args=[str(team_temp.id)]))
 
         self.assertTemplateUsed(response, 'form.html')
-        self.assertContains(response, 'Submit your temperature')
+        self.assertContains(response, 'Wordplay Time!')
         self.assertContains(response, existing_response.id)
 
     def test_post_invalid_temperature_view(self):
         team_temp = SurveyFactory()
 
         response = self.client.post(reverse('temp', args=[str(team_temp.id)]),
-                                    data={'score': 2})
+                                    data={})
 
         self.assertTemplateUsed(response, 'form.html')
         # self.failIf(response.context_data['form'].is_valid())
@@ -46,46 +46,18 @@ class TemperatureViewTestCases(TestCase):
         team_temp = SurveyFactory()
 
         response = self.client.post(reverse('temp', args=[str(team_temp.id)]),
-                                    data={'score': 2, 'word': 'word'})
+                                    data={'word': 'word'})
 
         self.assertTemplateUsed(response, 'form.html')
-        self.assertContains(response, "Thank you for submitting your answers. "
-                                      "You can amend them now or later if you need to")
+        self.assertContains(response, "Thank you for submitting your word. "
+                                      "You can amend it now or later if you need to")
 
-
-class TemperatureFormValidationTestCases(TestCase):
-    def test_score_must_be_greater_than_one(self):
-        team_temp = SurveyFactory()
-
-        response = self.client.post(reverse('temp', args=[str(team_temp.id)]),
-                                    data={'score': 0, 'word': 'word'})
-
-        self.assertTemplateUsed(response, 'form.html')
-        self.assertContains(response, "Ensure this value is greater than or equal to 1.")
-
-    def test_score_must_be_less_than_ten(self):
-        team_temp = SurveyFactory()
-
-        response = self.client.post(reverse('temp', args=[str(team_temp.id)]),
-                                    data={'score': 11, 'word': 'word'})
-
-        self.assertTemplateUsed(response, 'form.html')
-        self.assertContains(response, "Ensure this value is less than or equal to 10.")
-
-    def test_score_must_be_whole_number(self):
-        team_temp = SurveyFactory()
-
-        response = self.client.post(reverse('temp', args=[str(team_temp.id)]),
-                                    data={'score': 9.1, 'word': 'word'})
-
-        self.assertTemplateUsed(response, 'form.html')
-        self.assertContains(response, "Enter a whole number.")
 
     def test_word_has_no_spaces(self):
         team_temp = SurveyFactory()
 
         response = self.client.post(reverse('temp', args=[str(team_temp.id)]),
-                                    data={'score': 10, 'word': 'two words'})
+                                    data={'word': 'two words'})
 
         self.assertTemplateUsed(response, 'form.html')
         self.assertContains(response, "Please enter a single word with alphanumeric characters only.")
@@ -94,7 +66,7 @@ class TemperatureFormValidationTestCases(TestCase):
         team_temp = SurveyFactory()
 
         response = self.client.post(reverse('temp', args=[str(team_temp.id)]),
-                                    data={'score': 10, 'word': '*'})
+                                    data={'word': '*'})
 
         self.assertTemplateUsed(response, 'form.html')
         self.assertContains(response, "Please enter a single word with alphanumeric characters only.")

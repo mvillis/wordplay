@@ -18,7 +18,7 @@ class CreateTeamTemperatureView(CreateView):
     template_name = 'admin.html'
 
     def get_context_data(self, **kwargs):
-        kwargs['surveys'] = Survey.objects.filter(created_by=self.request.user)
+        kwargs['surveys'] = Survey.objects.filter(created_by=self.request.user).order_by('-created_at')
         return super(CreateTeamTemperatureView, self).get_context_data(**kwargs)
 
     def get_success_url(self):
@@ -70,8 +70,8 @@ def submit(request, survey_id):
             response, created = Response.objects.update_or_create(collector=collector, responder=user, defaults=srf)
 
             form = ResponseForm(instance=response)
-            thanks = "Thank you for submitting your answers. You can " \
-                     "amend them now or later if you need to"
+            thanks = "Thank you for submitting your word. You can " \
+                     "amend it now or later if you need to"
     else:
         try:
             previous = Response.objects.get(collector=collector, responder=user)

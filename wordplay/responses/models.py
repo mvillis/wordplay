@@ -1,9 +1,8 @@
-import django
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
+from django.core.validators import RegexValidator
 from django.contrib.auth.models import User as AuthUser
 from wordplay import utils
-from datetime import date, timedelta
+from datetime import date
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
@@ -29,15 +28,7 @@ class Survey(models.Model):
         """
         Up to the 5 most recent active collectors
         """
-        return self.collector_set.filter(open_date__lte=date.today()).order_by('-open_date')[:5]
-
-    @property
-    def stats(self):
-        collectors = self.running_set()
-        return {
-            'count': sum(c.stats['count'] for c in collectors)/float(len(collectors)),
-            'average': sum(c.stats['average'] for c in collectors)/float(len(collectors)),
-        }
+        return self.collector_set.filter(open_date__lte=date.today()).order_by('-id')[:5]
 
     def current(self):
         """
@@ -45,6 +36,13 @@ class Survey(models.Model):
         """
         now = date.today()
         return self.collector_set.filter(active=True, open_date__lte=now).first()
+
+    @property
+    def stats(self):
+        collectors = self.running_set()
+        return {
+            'count': sum(c.stats['count'] for c in collectors)
+        }
 
     def __unicode__(self):
         return u"{}: {} {}".format(self.id, self.created_by.id,
@@ -63,6 +61,10 @@ class Collector(models.Model):
     """
     Collector is a single round of a team temperature.
     """
+
+    class Meta:
+        ordering = ['-id']
+
     open_date = models.DateField()
     close_date = models.DateField(null=True, blank=True)
     survey = models.ForeignKey(Survey)
@@ -80,23 +82,19 @@ class Collector(models.Model):
             'count': responses.count(),
             # Avg.score_avg will return None if there are no responses
             # so we set a sane default
-            'average': responses.aggregate(models.Avg('score'))['score__avg'] or 0,
-            'words': responses.values('word').annotate(models.Count("id")).order_by(),
+            'words': responses.values('word'),
         }
 
     def __unicode__(self):
         return u"{}: {} {} {}".format(self.id, self.survey.id,
-                                         self.open_date,
-                                         self.close_date)
+                                      self.open_date,
+                                      self.close_date)
 
 
 class Response(models.Model):
     """
     An individuals Reponse to a Team Temperature at a point in time defined by the associated Collector.
     """
-    score = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(10)],
-        verbose_name='Temperature (1-10)')
     word = models.CharField(
         max_length=32,
         verbose_name="One word to describe how you're feeling",
@@ -110,4 +108,4 @@ class Response(models.Model):
     def __unicode__(self):
         return u"{}: {} {} {} {}".format(self.id, self.collector.id,
                                          self.responder.id,
-                                         self.score, self.word)
+                                         self.word)
