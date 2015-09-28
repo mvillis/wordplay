@@ -1,7 +1,7 @@
 import re
 
 from django import forms
-from django.forms.util import ErrorList
+from django.forms.utils import ErrorList
 from wordplay.responses.models import Survey, Response, Collector
 from django.utils.safestring import mark_safe
 from django.utils.html import escape

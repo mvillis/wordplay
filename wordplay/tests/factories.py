@@ -11,8 +11,9 @@ from wordplay.responses.models import User, Survey, Response
 
 
 class DjangoUserFactory(factory.django.DjangoModelFactory):
-    FACTORY_FOR = DjangoUser
-    FACTORY_DJANGO_GET_OR_CREATE = ('username',)
+    class Meta:
+        model = DjangoUser
+        django_get_or_create = ('username',)
 
     username = factory.Sequence(lambda n: 'user%d' % n)
     password = make_password('password')
@@ -21,15 +22,17 @@ class DjangoUserFactory(factory.django.DjangoModelFactory):
 
 
 class UserFactory(factory.django.DjangoModelFactory):
-    FACTORY_FOR = User
-    FACTORY_DJANGO_GET_OR_CREATE = ('id',)
+    class Meta:
+        model = User
+        django_get_or_create = ('id',)
 
     id = factory.Sequence(lambda n: n)
 
 
 class SurveyFactory(factory.django.DjangoModelFactory):
-    FACTORY_FOR = Survey
-    FACTORY_DJANGO_GET_OR_CREATE = ('created_by', 'created_at', 'name')
+    class Meta:
+        model = Survey
+        django_get_or_create = ('created_by', 'created_at', 'name')
 
     created_by = factory.SubFactory(DjangoUserFactory)
     created_at = datetime.now()
@@ -37,8 +40,9 @@ class SurveyFactory(factory.django.DjangoModelFactory):
 
 
 class ResponseFactory(factory.django.DjangoModelFactory):
-    FACTORY_FOR = Response
-    FACTORY_DJANGO_GET_OR_CREATE = ('collector', 'responder')
+    class Meta:
+        model = Response
+        django_get_or_create = ('collector', 'responder')
 
     collector = factory.LazyAttribute(lambda o: SurveyFactory().current())
     responder = factory.SubFactory(UserFactory)
