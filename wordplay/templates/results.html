@@ -11,22 +11,25 @@
             <h2 class="text-muted">Summary for {{ survey.name }}</h2>
             <p> Over the last 5 surveys:
             <ul>
-              <li>Average temperature: {{ survey.stats.average }}</li>
-              <li>Average responses: {{ survey.stats.count }}</li>
+              <li>{{ survey.stats.count }} word/s have been played!</li>
             </ul>
 
             <h2 class="text-muted">Individual Surveys</h2>
             <table class="table table-bordered">
               <tr>
                 <th>Period</th>
-                <th>Temperature</th>
-                <th></th>
+                <th>Words</th>
               </tr>
               {% for collector in survey.collector_set.all %}
               <tr>
                 <td>{{ collector.open_date}} - {{ collector.close_date }}</td>
-                <td>{{ collector.stats.average }} ({{ collector.stats.count }})</td>
-                <td></td>
+                <td>Total Responses ({{ collector.stats.count }})
+                  <ul>
+                  {% for key in collector.stats.words %}
+                    <li>{{key.word}}</li>
+                  {% endfor %}
+                  </ul>
+                </td>
             {% endfor %}
             </table>
         </div>
