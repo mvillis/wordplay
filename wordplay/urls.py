@@ -3,8 +3,14 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import TemplateView
 from django.conf import settings
+from rest_framework import routers
+from wordplay import views
 
 from wordplay.views import submit, register, TeamTemperatureDetailView, CreateTeamTemperatureView, CreateCollectorView
+
+router = routers.DefaultRouter()
+router.register(r'response', views.ResponseViewSet)
+
 
 urlpatterns = patterns(
     '',
@@ -19,4 +25,6 @@ urlpatterns = patterns(
     url(r'^accounts/register/$', register, name='register'),
     url(r'^([0-9a-zA-Z]{8})$', submit, name='temp'),
     url(r'^static/(.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^', include(router.urls)),
 )
