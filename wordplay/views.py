@@ -57,6 +57,12 @@ class TeamTemperatureDetailView(CreatorRequiredMixin, DetailView):
     context_object_name = 'survey'
 
 
+class CloudView(DetailView):
+    model = Survey
+    template_name = 'cloud.html'
+    context_object_name = 'survey'
+
+
 def submit(request, survey_id):
     userid = responses.get_or_create_userid(request)
     user, created = User.objects.get_or_create(id=userid)
@@ -81,7 +87,7 @@ def submit(request, survey_id):
             previous = None
 
         form = ResponseForm(instance=previous)
-    return render(request, 'form.html', {'form': form, 'thanks': thanks})
+    return render(request, 'form.html', {'form': form, 'thanks': thanks, 'survey_id': survey_id})
 
 
 def register(request):

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Cloud{% endblock %}
+{% block head %}
+    <script type="text/javascript" src="{% static "js/wordcloud2.js" %}"></script>
+
+{% endblock %}
+
+{% block body %}
+            <canvas id="vis" class="canvas" width="1170" height="760"></canvas>
+            <script>
+              var list = [['foo', 120], ['bar', 6], ['chicken', 40]];
+              WordCloud(document.getElementById('vis'), { list: list, gridSize: 18,
+  weightFactor: 3,
+  fontFamily: 'Impact, sans-serif',
+  color: 'random-light',
+  hover: window.drawBox,
+  click: function(item) {
+    alert(item[0] + ': ' + item[1]);
+  } } );
+            </script>
+{% endblock %}

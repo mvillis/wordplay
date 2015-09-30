@@ -6,7 +6,7 @@ from django.conf import settings
 from rest_framework import routers
 from wordplay import views
 
-from wordplay.views import submit, register, TeamTemperatureDetailView, CreateTeamTemperatureView, CreateCollectorView
+from wordplay.views import submit, register, TeamTemperatureDetailView, CreateTeamTemperatureView, CreateCollectorView, CloudView
 
 router = routers.DefaultRouter()
 router.register(r'response', views.ResponseViewSet)
@@ -23,6 +23,7 @@ urlpatterns = patterns(
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'}, name='login'),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': reverse_lazy('home')}, name='logout'),
     url(r'^accounts/register/$', register, name='register'),
+    url(r'^(?P<pk>[0-9a-zA-Z]{8})/cloud/$', CloudView.as_view(), name='cloud'),
     url(r'^([0-9a-zA-Z]{8})$', submit, name='temp'),
     url(r'^static/(.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
     url(r'^api/', include(router.urls)),
