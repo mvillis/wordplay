@@ -4,7 +4,7 @@
 
 {% block body %}
 {% if thanks %}
-<div class="info box">{{ thanks }}</div>
+<div class="alert alert-info" role="alert">{{ thanks }}. <br/><a href="{% url 'cloud' survey_id %}" class="alert-link">Check out the word cloud!</a></div>
 {% endif %}
 <h1>Wordplay Time!</h1>
 <form method="post">
