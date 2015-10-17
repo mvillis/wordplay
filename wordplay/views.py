@@ -7,7 +7,11 @@ from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.views.generic import CreateView, DetailView, ListView
 from rest_framework import viewsets
-from wordplay.serializers import ResponseSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
+from wordplay.serializers import CollectorSerializer
 
 from wordplay.responses.mixins import CreatorRequiredMixin
 from wordplay.responses.forms import ResponseForm, ErrorBox, SurveyForm, CollectorForm
@@ -103,12 +107,6 @@ def register(request):
     return render(request, "register.html", {'form': form, })
 
 
-class ResponseViewSet(viewsets.ModelViewSet):
-
-    queryset = Response.objects.all()
-
-    serializer = ResponseSerializer
-
-    serializer_class = serializer.meta
-
-
+class CollectorViewSet(viewsets.ModelViewSet):
+    queryset = Collector.objects.all()
+    serializer_class = CollectorSerializer

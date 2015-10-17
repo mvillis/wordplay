@@ -9,7 +9,7 @@ from wordplay import views
 from wordplay.views import submit, register, TeamTemperatureDetailView, CreateTeamTemperatureView, CreateCollectorView, CloudView
 
 router = routers.DefaultRouter()
-router.register(r'response', views.ResponseViewSet)
+router.register(r'collector', views.CollectorViewSet)
 
 
 urlpatterns = patterns(

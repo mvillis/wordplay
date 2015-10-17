@@ -1,10 +1,8 @@
-from wordplay.responses.models import Response
+from wordplay.responses.models import Collector
 from rest_framework import serializers
 
 
-class ResponseSerializer(serializers.ModelSerializer):
-    class meta:
-        model = Response
-        fields = 'word'
-
-
+class CollectorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Collector
+        fields = ('open_date', 'close_date', 'survey', 'active')
