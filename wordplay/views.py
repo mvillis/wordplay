@@ -7,11 +7,13 @@ from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.views.generic import CreateView, DetailView, ListView
 from rest_framework import viewsets
-from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import generics
+from rest_framework import filters
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from wordplay.serializers import CollectorSerializer
+from wordplay.serializers import ResponseSerializer
 
 from wordplay.responses.mixins import CreatorRequiredMixin
 from wordplay.responses.forms import ResponseForm, ErrorBox, SurveyForm, CollectorForm
@@ -110,3 +112,26 @@ def register(request):
 class CollectorViewSet(viewsets.ModelViewSet):
     queryset = Collector.objects.all()
     serializer_class = CollectorSerializer
+
+
+class WordListView(generics.ListAPIView):
+
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    serializer_class = ResponseSerializer
+
+    def get_queryset(self):
+        #response = Response.objects.all()
+
+        # Get the survey object by the id
+        survey_id = self.request.query_params.get('survey_id')
+        print 'This is the sid: ', survey_id
+        survey = Survey.objects.get(pk=survey_id)
+
+        # Get the collector based on the survey
+        open_date = self.request.query_params.get('open_date')
+        collector = Collector.objects.filter(survey=survey).filter(open_date=open_date)
+        print collector
+
+        # Get the responses for the selected collector
+        resp = Response.objects.filter(collector=collector)
+        return resp
