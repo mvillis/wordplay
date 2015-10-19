@@ -6,11 +6,10 @@ from django.conf import settings
 from rest_framework import routers
 from wordplay import views
 
-from wordplay.views import submit, register, TeamTemperatureDetailView, CreateTeamTemperatureView, CreateCollectorView, CloudView
+from wordplay.views import submit, register, TeamTemperatureDetailView, CreateTeamTemperatureView, CreateCollectorView, CloudView, WordListView, CollectorViewSet
 
 router = routers.DefaultRouter()
-router.register(r'response', views.ResponseViewSet)
-
+router.register(r'collector', views.CollectorViewSet)
 
 urlpatterns = patterns(
     '',
@@ -26,6 +25,7 @@ urlpatterns = patterns(
     url(r'^(?P<pk>[0-9a-zA-Z]{8})/cloud/$', CloudView.as_view(), name='cloud'),
     url(r'^([0-9a-zA-Z]{8})$', submit, name='temp'),
     url(r'^static/(.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
+    url(r'^api/response/$', views.WordListView.as_view(), name='response'),
     url(r'^api/', include(router.urls)),
     url(r'^api/api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 )
