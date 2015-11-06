@@ -1,3 +1,9 @@
+Dev Central
+-----------
+[![Build Status](https://travis-ci.org/mvillis/wordplay.svg)](https://travis-ci.org/mvillis/wordplay)
+[![Coverage Status](https://coveralls.io/repos/mvillis/wordplay/badge.svg?branch=master&service=github)](https://coveralls.io/github/mvillis/wordplay?branch=master)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/mvillis/wordplay?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
 Demo
 -----
 
@@ -44,8 +50,3 @@ python manage.py migrate
 python manage.py collectstatic
 python manage.py runserver
 ```
-
-Build Health
------------
-[![Build Status](https://travis-ci.org/mvillis/wordplay.svg)](https://travis-ci.org/mvillis/wordplay)
-[![Coverage Status](https://coveralls.io/repos/mvillis/wordplay/badge.svg?branch=master&service=github)](https://coveralls.io/github/mvillis/wordplay?branch=master)
