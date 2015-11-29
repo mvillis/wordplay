@@ -25,7 +25,8 @@ urlpatterns = patterns(
     url(r'^(?P<pk>[0-9a-zA-Z]{8})/cloud/$', CloudView.as_view(), name='cloud'),
     url(r'^([0-9a-zA-Z]{8})$', submit, name='temp'),
     url(r'^static/(.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
-    url(r'^api/response/$', views.WordListView.as_view(), name='response'),
+    url(r'^api/responses/(?P<pk>[0-9a-zA-Z]{8})/$', views.WordListView.as_view(), name='response'),
+    url(r'^api/wordcount/(?P<pk>[0-9a-zA-Z]{8})/$', views.word_count, name='word_count'),
     url(r'^api/', include(router.urls)),
     url(r'^api/api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 )
