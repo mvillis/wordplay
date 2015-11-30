@@ -7,13 +7,13 @@ from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.views.generic import CreateView, DetailView, ListView
 from rest_framework import viewsets
-from rest_framework.response import Response
+from rest_framework.response import Response as RestResp
 from rest_framework import generics
 from rest_framework import filters
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
-
-from wordplay.serializers import CollectorSerializer
-from wordplay.serializers import ResponseSerializer
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
+from rest_framework.decorators import api_view, permission_classes
+from collections import Counter
+from wordplay.serializers import CollectorSerializer, WordCountSerializer, ResponseSerializer
 
 from wordplay.responses.mixins import CreatorRequiredMixin
 from wordplay.responses.forms import ResponseForm, ErrorBox, SurveyForm, CollectorForm
@@ -107,7 +107,7 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, "register.html", {'form': form, })
-
+    
 
 class CollectorViewSet(viewsets.ModelViewSet):
     queryset = Collector.objects.all()
@@ -120,18 +120,19 @@ class WordListView(generics.ListAPIView):
     serializer_class = ResponseSerializer
 
     def get_queryset(self):
-        #response = Response.objects.all()
-
-        # Get the survey object by the id
-        survey_id = self.request.query_params.get('survey_id')
-        print 'This is the sid: ', survey_id
-        survey = Survey.objects.get(pk=survey_id)
-
-        # Get the collector based on the survey
-        open_date = self.request.query_params.get('open_date')
-        collector = Collector.objects.filter(survey=survey).filter(open_date=open_date)
-        print collector
-
-        # Get the responses for the selected collector
-        resp = Response.objects.filter(collector=collector)
-        return resp
+        collector = Survey.objects.get(pk=self.kwargs['pk']).current
+        responses = Response.objects.filter(collector=collector)
+        return responses
+        
+@api_view(['GET'])
+@permission_classes((AllowAny, ))
+def word_count(request, pk):
+    """
+    Great API
+    """
+    collector = Survey.objects.get(pk=pk).current()
+    responses = Response.objects.filter(collector=collector)
+    words = map(lambda x: x.word, responses)
+    word_count = Counter(words)
+    serializer = WordCountSerializer(word_count)
+    return RestResp(serializer.data)

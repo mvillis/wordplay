@@ -13,3 +13,10 @@ class ResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Response
         fields = ('word', 'responder', 'responded_at', 'collector')
+
+class WordCountSerializer(serializers.BaseSerializer):
+    def to_representation(self, obj):
+        print "hello %s" % obj
+        return {
+            'count': obj,
+        }
